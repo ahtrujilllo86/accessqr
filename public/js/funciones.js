@@ -12,8 +12,8 @@ function checkfracc(idfracc){//reviso owner mail
         data: {'id': idfracc, '_token': _token}, 
         success: function (response) {
             let disponile = response['usuarios'];
-            console.log(response);
-            console.log(disponile);
+            //console.log(response);
+           // console.log(disponile);
             
             //if(response!='error'){
           /**/  if(disponile == 0){
@@ -22,9 +22,9 @@ function checkfracc(idfracc){//reviso owner mail
                 
             }else if(disponile > 0){
                 document.getElementById("registerform").style.display = "block";
-                document.getElementById("fracc").value = response['idfrac'];
+                document.getElementById("fracc").value = response['namefrac'];
                 document.getElementById("casahide").value = response['casa'];
-                document.getElementById("fracchide").value = response['idfrac'];
+                document.getElementById("fracchide").value = response['namefrac'];
                 document.getElementById("casa").value = response['casa'];
                 document.getElementById("divremain").style.display = "block";
                 document.getElementById("remainusers").innerHTML = disponile;
@@ -38,7 +38,10 @@ function checkfracc(idfracc){//reviso owner mail
             }
         },
         error: function (response) {
-          console.log('errorPost');
+          //console.log('errorPost');
+                document.getElementById("registerform").style.display = "none";
+                document.getElementById("divremain").style.display = "none";
+                document.getElementById("remainusers").innerHTML = "0";
         },
       });       
 }

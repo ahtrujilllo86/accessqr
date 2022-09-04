@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
+            $table->string('idfrac');
             $table->string('owner');
             $table->string('usuarios');
+            $table->string('casa');
             $table->timestamps();
         });
     }

@@ -48,6 +48,11 @@ Route::get('/showqr/{indexacceso}', [UsuariosController::class, 'showqr'])->name
 Route::post('/checkfracc',[UsuariosController::class, 'checkfracc'])->name('usuarios.changepassword');
 Route::post('/checktoken',[UsuariosController::class, 'checktoken'])->name('usuarios.checktoken');
 
+Route::get('/owners/insert',[UsuariosController::class, 'newowner'])->name('usuarios.newowner');
+Route::post('/owners/insertowner',[UsuariosController::class, 'insertowner'])->name('usuarios.insertowner');
+Route::post('/owners/editowner',[UsuariosController::class, 'editowner'])->name('usuarios.editowner');
+Route::post('/owners/insertfracc',[UsuariosController::class, 'insertfracc'])->name('usuarios.insertfracc');
+
 
 
 

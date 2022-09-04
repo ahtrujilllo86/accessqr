@@ -19,9 +19,17 @@ class RecoverController extends Controller
         $para = $request->recovermail;
         $gettoken = Usuarios::where('correo', $para)->get('remember_token')->first();
         //return $gettoken;
-        $correo = new RecoverMail($gettoken);
-        Mail::to($para)->send($correo);
-        return view('newpass', compact('para'));
+        if(!$gettoken){
+            $errormsg = "El correo no existe";
+            //return view('recoverpwd')->with('error', "el correo no existe en la base");
+            return back()->with('error', 'El correo electronico no existe');
+        }else{
+            $correo = new RecoverMail($gettoken);
+            Mail::to($para)->send($correo);
+            return view('newpass', compact('para'));
+
+        }
+        
     }
 
     public function index(){

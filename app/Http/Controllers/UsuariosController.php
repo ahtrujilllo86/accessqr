@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str;
 use App\Models\Usuarios;
 use App\Models\User;
 use App\Models\Accesos;
 use App\Models\Autos;
 use App\Models\Owners;
-use App\Models\Tokens;
+//use App\Models\Tokens;
+use App\Models\Fraccionamientos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +70,7 @@ class UsuariosController extends Controller
 
     public function saveregister(Request $requ)
     {
-        $assigntoken = Tokens::first('token');
+        $random = Str::random(30);//this is the remember_token
         $remindusers = $requ->input('remind');
         $remindusers --;
         $user = new Usuarios;
@@ -82,10 +83,10 @@ class UsuariosController extends Controller
         $user->password= Hash::make($requ->input('password'));
         $user->owner = $requ->input('owner');       
         $user->casa=$requ->input('casa');
-        $user->remember_token=$assigntoken['token'];
+        $user->remember_token=$random;
         $user->save(); 
         Owners::where('owner', $requ->input('owner'))->update(['usuarios' => $remindusers]); 
-        Tokens::where('token', $assigntoken['token'])->delete();
+        //Tokens::where('token', $assigntoken['token'])->delete();
         return redirect('/');
     }
 
@@ -115,13 +116,22 @@ class UsuariosController extends Controller
     }
 
     //Ajax request list
-    public function checkfracc(Request $request){//reviso owner mail      
+    public function checkfracc(Request $request){//reviso owner mail     
         $input = $request->input('id');
+        $checkowner = Owners::where('owner', $input)->first();
+        $idefrac = $checkowner->idfrac;
+        $matchowner = Owners::join('fraccionamientos', 'fraccionamientos.idfrac', '=', 'owners.idfrac')
+        ->where( 'fraccionamientos.idfrac', $idefrac)
+        ->where('owners.idfrac', $idefrac)
+        ->first(['fraccionamientos.namefrac', 'owners.casa', 'owners.usuarios']);
+        return $matchowner;
+        /*
         $users = Usuarios::join('owners', 'usuarios.owner', '=', 'owners.owner')
         ->where( 'usuarios.owner', $input)
         ->where('owners.owner', $input)
         ->first(['usuarios.idfrac', 'usuarios.casa', 'owners.usuarios']);
         return $users;
+        */
     }
 
     public function fillauto(Request $requestcar){
@@ -274,6 +284,41 @@ class UsuariosController extends Controller
         }
 
 
+    }
+
+    public function newowner(){
+        $owners = Owners::all();
+        $fraccs = Fraccionamientos::all();
+        return view('owners.insert', compact('owners'), compact('fraccs'));
+    }
+
+    public function insertowner(Request $request){
+        $newowner = new Owners;
+        $newowner->owner=$request->input('newowner');
+        $newowner->usuarios=$request->input('newusuarios');
+        $newowner->idfrac=$request->input('storedidfrac');
+        $newowner->casa=$request->input('newcasa');     
+        $newowner->save(); 
+        return redirect('owners/insert'); 
+        
+    }
+
+    public function editowner(Request $request){
+        $idowner = $request->input('idowner');
+        $addusers = $request->input('usuarios');
+        $affected = Owners::where('id',$idowner )->update(['usuarios' => $addusers]);
+        return redirect('owners/insert'); 
+        
+    }
+
+
+    public function insertfracc(Request $request){
+        $newfrac = new Fraccionamientos;
+        $newfrac->idfrac=$request->input('newidfrac');
+        $newfrac->namefrac=$request->input('newnamefrac');     
+        $newfrac->save(); 
+        return redirect('owners/insert'); 
+        
     }
 
 }
