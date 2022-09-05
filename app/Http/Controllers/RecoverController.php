@@ -18,7 +18,6 @@ class RecoverController extends Controller
 
         $para = $request->recovermail;
         $gettoken = Usuarios::where('correo', $para)->get('remember_token')->first();
-        return $gettoken;
         if(!$gettoken){
             $errormsg = "El correo no existe";
             //return view('recoverpwd')->with('error', "el correo no existe en la base");
