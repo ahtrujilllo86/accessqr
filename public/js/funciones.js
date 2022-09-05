@@ -1,6 +1,7 @@
 var timedisplay;
 let _token   = $('meta[name="csrf-token"]').attr('content');
-var hoster = "http://192.168.137.1/qracc/public/showqr/";
+//var hoster = "http://192.168.137.1/qracc/public/showqr/";
+var herok = window.location.host + "/showqr/"; 
 
 
 // begin Ajax post
@@ -143,9 +144,8 @@ function qrgen(indexacceso){
 
     var qrcode = new QRCode("qrgen");
     //qrcode.makeCode("http://192.168.1.91/qracc/public/showqr/" + indexacceso);
-    qrcode.makeCode(hoster + indexacceso);
-
-    //document.getElementById("spantimes").innerHTML = timedisplay;
+    //qrcode.makeCode(hoster + indexacceso);
+    qrcode.makeCode(herok + indexacceso);
 }
 
 function downqr(){
@@ -178,9 +178,8 @@ function firstqrgen(indexacceso){
  
      var qrcode = new QRCode("qrgen");
      //qrcode.makeCode("http://192.168.1.91/qracc/public/showqr/" + indexacceso);
-     qrcode.makeCode(hoster + indexacceso);
-
-     //document.getElementById("spantimes").innerHTML = timedisplay;
+     //qrcode.makeCode(hoster + indexacceso);
+    qrcode.makeCode(herok + indexacceso);
  }
  
  function firstdownqr(){
@@ -193,7 +192,7 @@ function firstqrgen(indexacceso){
      createEl.download = filename + ".png";
      createEl.click();
      createEl.remove();
-     var url = "../public/main";
+     var url = "/main";
      location.href = url;
  
  }
