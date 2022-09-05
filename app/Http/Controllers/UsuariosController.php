@@ -311,6 +311,13 @@ class UsuariosController extends Controller
         
     }
 
+    public function removeowner(Request $request){
+
+        return redirect('owners/insert'); 
+        
+    }
+
+
 
     public function insertfracc(Request $request){
         $newfrac = new Fraccionamientos;

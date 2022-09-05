@@ -74,7 +74,7 @@
                   <tbody>
                     @foreach ($fraccs as $data)
                     <tr>
-                      <form action="editowner" method="POST">
+                      <form action="removeowner" method="POST">
                       @csrf
                         <td>{{$data->idfrac}}</td>
                         <td>{{$data->namefrac}}</td>
