@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('idfrac');
             $table->string('nombre1');
-            $table->string('nombre2');
+            $table->string('nombre2')->nullable();
             $table->string('apellidop');
-            $table->string('apellidom');
+            $table->string('apellidom')->nullable();
             $table->string('correo');
             $table->string('password');
             $table->string('owner');

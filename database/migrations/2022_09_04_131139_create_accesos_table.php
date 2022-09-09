@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('idfrac');
             $table->string('tipo');
             $table->string('nombre');
-            $table->string('marca');
-            $table->string('modelo');
-            $table->string('color');
-            $table->string('placas');
+            $table->string('marca')->nullable();
+            $table->string('modelo')->nullable();
+            $table->string('color')->nullable();
+            $table->string('placas')->nullable();
             $table->timestamp('inicio')->nullable();
             $table->timestamp('fin')->nullable();
             $table->string('vigente');
